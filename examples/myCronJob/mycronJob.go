@@ -12,7 +12,7 @@ func main() {
 	Loc, _ := time.LoadLocation("Local")
 	now := time.Now()
 	fmt.Println("now:", now)
-	firstInvokeSecond := 10
+	firstInvokeSecond := 30
 	InvokeIntervalSeconds := 10
 	message := "myGoFunction invoked at:"
 
@@ -24,7 +24,10 @@ func main() {
 		FirstInvokeYear:       now.Year(),
 		FirstInvokeMonth:      now.Month(),
 		FirstInvokeDay:        now.Day(),
+		FirstInvokeHour:       now.Hour(),
+		FirstInvokeMin:        now.Minute(),
 		FirstInvokeSecond:     firstInvokeSecond,
+		FirstInvokeNanoSecond: now.Nanosecond(),
 		Loc:                   Loc,
 		InvokeIntervalSeconds: InvokeIntervalSeconds,
 		RoutineToInvoke:       routineToInvoke,
@@ -35,5 +38,5 @@ func main() {
 
 // I want to convert this Go function into a cron job
 func myGoFunction(message string) {
-	fmt.Println(message, time.Now().UTC())
+	fmt.Println(message, time.Now().Local())
 }

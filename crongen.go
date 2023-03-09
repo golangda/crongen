@@ -1,7 +1,6 @@
 package crongen
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -48,13 +47,13 @@ func (cronGen *CronGen) CreateCronJob() {
 	}
 	firstInvokeTime := time.Date(cronGen.FirstInvokeYear, cronGen.FirstInvokeMonth, cronGen.FirstInvokeDay,
 		cronGen.FirstInvokeHour, cronGen.FirstInvokeMin, cronGen.FirstInvokeSecond, cronGen.FirstInvokeNanoSecond, cronGen.Loc)
-	fmt.Println("firstInvokeTime:", firstInvokeTime)
 	invokeInterval := time.Duration(cronGen.InvokeIntervalHours)*time.Hour + time.Duration(cronGen.InvokeIntervalMins)*time.Minute +
 		time.Duration(cronGen.InvokeIntervalSeconds)*time.Second + time.Duration(cronGen.InvokeIntervalNanoSeconds)
-	fmt.Println("invokeInterval:", invokeInterval)
 	for {
 		timer := time.NewTimer(invokeInterval)
 		<-timer.C
-		go cronGen.RoutineToInvoke()
+		if time.Now().Compare(firstInvokeTime) >= 0 {
+			go cronGen.RoutineToInvoke()
+		}
 	}
 }
