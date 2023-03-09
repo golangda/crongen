@@ -50,10 +50,10 @@ func (cronGen *CronGen) CreateCronJob() {
 	invokeInterval := time.Duration(cronGen.InvokeIntervalHours)*time.Hour + time.Duration(cronGen.InvokeIntervalMins)*time.Minute +
 		time.Duration(cronGen.InvokeIntervalSeconds)*time.Second + time.Duration(cronGen.InvokeIntervalNanoSeconds)
 	for {
-		timer := time.NewTimer(invokeInterval)
-		<-timer.C
-		if time.Now().Compare(firstInvokeTime) >= 0 {
+		if time.Now().UTC().Sub(firstInvokeTime) >= 0 {
 			go cronGen.RoutineToInvoke()
 		}
+		timer := time.NewTimer(invokeInterval)
+		<-timer.C
 	}
 }
