@@ -12,7 +12,7 @@ func main() {
 	Loc, _ := time.LoadLocation("Local")
 	now := time.Now()
 	fmt.Println("now:", now)
-	firstInvokeSecond := 30
+	firstInvokeSecond := 15
 	InvokeIntervalSeconds := 10
 	message := "myGoFunction invoked at:"
 
@@ -27,7 +27,7 @@ func main() {
 		FirstInvokeHour:       now.Hour(),
 		FirstInvokeMin:        now.Minute(),
 		FirstInvokeSecond:     firstInvokeSecond,
-		FirstInvokeNanoSecond: now.Nanosecond(),
+		FirstInvokeNanoSecond: 0,
 		Loc:                   Loc,
 		InvokeIntervalSeconds: InvokeIntervalSeconds,
 		RoutineToInvoke:       routineToInvoke,

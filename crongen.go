@@ -50,10 +50,27 @@ func (cronGen *CronGen) CreateCronJob() {
 	invokeInterval := time.Duration(cronGen.InvokeIntervalHours)*time.Hour + time.Duration(cronGen.InvokeIntervalMins)*time.Minute +
 		time.Duration(cronGen.InvokeIntervalSeconds)*time.Second + time.Duration(cronGen.InvokeIntervalNanoSeconds)
 	for {
-		if time.Now().UTC().Sub(firstInvokeTime) >= 0 {
+		diff := time.Until(firstInvokeTime)
+		if diff < 0 {
+			nextInvokeAt := getNextInvokeAT(firstInvokeTime, invokeInterval)
+			time.Sleep(time.Until(nextInvokeAt))
+			go cronGen.RoutineToInvoke()
+		} else if diff > 0 {
+			nextInvokeAt := time.Until(firstInvokeTime)
+			time.Sleep(nextInvokeAt)
+			go cronGen.RoutineToInvoke()
+		} else {
 			go cronGen.RoutineToInvoke()
 		}
-		timer := time.NewTimer(invokeInterval)
-		<-timer.C
+	}
+}
+
+func getNextInvokeAT(firstInvokeTime time.Time, invokeIntreval time.Duration) time.Time {
+	for {
+		firstInvokeTime = firstInvokeTime.Add(invokeIntreval)
+		if time.Until(firstInvokeTime) >= 0 {
+			return firstInvokeTime
+		}
+
 	}
 }
