@@ -1,35 +1,39 @@
 package main
 
-// import (
-// 	"fmt"
-// 	"time"
-// 	"github.com\golangda\crongen"
-// )
+import (
+	"fmt"
+	"time"
 
-// func main() {
-// 	done := make(chan bool)
-// 	Loc, _ := time.LoadLocation("Local")
-// 	now := time.Now()
-// 	fmt.Println("now:", now)
-// 	firstInvokeSecond := 10
-// 	InvokeIntervalSeconds := 10
-// 	message := "myCronJob invoked at:"
+	"github.com/golangda/crongen"
+)
 
-// 	routineToInvoke := func() { myCronJob(message) }
+func main() {
+	done := make(chan bool)
+	Loc, _ := time.LoadLocation("Local")
+	now := time.Now()
+	fmt.Println("now:", now)
+	firstInvokeSecond := 10
+	InvokeIntervalSeconds := 10
+	message := "myGoFunction invoked at:"
 
-// 	crgen := &crongen.CronGen{
-// 		FirstInvokeYear:       now.Year(),
-// 		FirstInvokeMonth:      now.Month(),
-// 		FirstInvokeDay:        now.Day(),
-// 		FirstInvokeSecond:     firstInvokeSecond,
-// 		Loc:                   Loc,
-// 		InvokeIntervalSeconds: InvokeIntervalSeconds,
-// 		RoutineToInvoke:       routineToInvoke,
-// 	}
-// 	go crgen.CreateCronJob()
-// 	<-done
-// }
+	// routine to invoke as a cron job
+	routineToInvoke := func() { myGoFunction(message) }
 
-// func myCronJob(message string) {
-// 	fmt.Println(message, time.Now().UTC())
-// }
+	// configure cron job
+	crgen := &crongen.CronGen{
+		FirstInvokeYear:       now.Year(),
+		FirstInvokeMonth:      now.Month(),
+		FirstInvokeDay:        now.Day(),
+		FirstInvokeSecond:     firstInvokeSecond,
+		Loc:                   Loc,
+		InvokeIntervalSeconds: InvokeIntervalSeconds,
+		RoutineToInvoke:       routineToInvoke,
+	}
+	go crgen.CreateCronJob()
+	<-done
+}
+
+// I want to convert this Go function into a cron job
+func myGoFunction(message string) {
+	fmt.Println(message, time.Now().UTC())
+}
