@@ -21,7 +21,7 @@ func main() {
 
 	// configure cron job
 	crgen := &crongen.CronGen{
-		FirstInvokeYear:       now.Year(),
+		// FirstInvokeYear:       now.Year(),
 		FirstInvokeMonth:      now.Month(),
 		FirstInvokeDay:        now.Day(),
 		FirstInvokeHour:       now.Hour(),
