@@ -71,7 +71,40 @@ Configuration Parameters
 - **Loc:** The timezone for execution. Default: UTC.
 - **InvokeIntervalHours/Mins/Seconds/Nanoseconds:** The periodic execution interval.
 
-### Example Project
+
+## API Documentation
+### Constants
+No specific constants are defined in this library.
+
+### Variables
+No global variables are defined in this library.
+
+### Types
+**CronGen**
+`CronGen` is the main type used to configure and manage cron jobs. It includes the following fields:
+
+- **FirstInvokeYear (int):** The year for the first job execution.
+- **FirstInvokeMonth (time.Month):** The month for the first job execution.
+- **FirstInvokeDay (int):** The day for the first job execution.
+- **FirstInvokeHour (int):** The hour for the first job execution.
+- **FirstInvokeMin (int):** The minute for the first job execution.
+- **FirstInvokeSecond (int):** The second for the first job execution.
+- **FirstInvokeNanoSecond (int):** The nanosecond for the first job execution.
+- **Loc (*time.Location):** The timezone for execution.
+- **InvokeIntervalHours (int):** Hours between periodic executions.
+- **InvokeIntervalMins (int):** Minutes between periodic executions.
+- **InvokeIntervalSeconds (int):** Seconds between periodic executions.
+- **InvokeIntervalNanoSeconds (int):** Nanoseconds between periodic executions.
+- **RoutineToInvoke (func()):** The function to be invoked as the cron job.
+
+### Functions
+**func (cronGen *CronGen) CreateCronJob()**
+This function initiates the cron job using the parameters specified in the CronGen struct. It ensures that the job is executed first at the defined time and then repeatedly at the specified intervals.
+
+#### Helper Functions
+**getNextInvokeAT(firstInvokeTime time.Time, invokeInterval time.Duration) time.Time:** Calculates the next execution time based on the provided interval.
+
+## Example Project
 Check the `examples/` folder for a fully functional example project.
 
 ---
